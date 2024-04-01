@@ -7,6 +7,7 @@ This is a simple User Management CRUD (Create, Read, Update, Delete) application
 - User Authentication: Users can sign up, log in, and log out securely.
 - CRUD Operations: Users can create, read, update, and delete user data.
 - MERN Stack: Utilizes MongoDB, Express.js, React, and Node.js for building a full-stack application.
+- REDUX TOOLKIT: Used Redux-Toolkit and Thunk Api for State Management and Api Calls.
 - TypeScript: Enhances developer experience with type safety.
 
 ## Screenshots
