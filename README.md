@@ -1,6 +1,6 @@
 # User Management CRUD Application with Authentication using MERN Stack
 
-This is a simple User Management CRUD (Create, Read, Update, Delete) application with authentication built using the MERN (MongoDB, Express.js, React, Node.js) stack. This project is created for learning purposes.
+This is a simple User Management CRUD (Create, Read, Update, Delete) application with authentication built using the MERN (MongoDB, Express.js, React, Node.js) stack. This project is created for learning TYPESCRIPT.
 
 ## Features
 
