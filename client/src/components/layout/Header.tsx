@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <div className="px-10 flex justify-between items-center h-[60px] shadow-md">
       <div className="">
-        <h2 className="font-semibold uppercase text-lg">Yano Assignment</h2>
+        <h2 className="font-semibold uppercase text-lg">CRUD TYPESCRIPT</h2>
       </div>
 
       <div>

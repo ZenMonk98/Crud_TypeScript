@@ -1,15 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import Auth from "../models/authModel";
+import { z } from "zod";
 
-interface InputSignin {
-  username: string;
-  password: string;
-}
+const SignUpInput = z.object({
+  name: z.string(),
+  username: z.string().email(),
+  password: z.string(),
+});
 
-interface InputSignup extends InputSignin {
-  name: string;
-}
+const SigInInputs = z.object({
+  username: z.string().email(),
+  password: z.string(),
+});
 
 export const signup = async (
   req: Request,
@@ -17,10 +20,14 @@ export const signup = async (
   next: NextFunction
 ) => {
   try {
-    const inputs: InputSignup = req.body;
+    const parsedInputs = SignUpInput.safeParse(req.body);
+
+    if (!parsedInputs.success) {
+      return res.status(411).json({ message: parsedInputs.error });
+    }
 
     const registeredUser = await Auth.findOne({
-      username: inputs.username,
+      username: parsedInputs.data.username,
     });
 
     if (registeredUser) {
@@ -29,11 +36,11 @@ export const signup = async (
         .send({ success: false, message: "User Already Registered." });
     } else {
       const newUser = new Auth({
-        name: inputs.name,
-        username: inputs.username,
+        name: parsedInputs.data.name,
+        username: parsedInputs.data.username,
       });
 
-      newUser.password = await newUser.generateHash(inputs.password);
+      newUser.password = await newUser.generateHash(parsedInputs.data.password);
 
       await newUser.save();
       res
@@ -51,15 +58,20 @@ export const signin = async (
   next: NextFunction
 ) => {
   try {
-    const inputs: InputSignin = req.body;
+    const parsedInputs = SigInInputs.safeParse(req.body);
+
+    if (!parsedInputs.success) {
+      return res.status(411).json({ message: parsedInputs.error });
+    }
 
     const findUser = await Auth.findOne({
-      username: inputs.username,
+      username: parsedInputs.data.username,
     });
 
-
     if (findUser) {
-      const isValidPassword = await findUser.validatePassword(inputs.password);
+      const isValidPassword = await findUser.validatePassword(
+        parsedInputs.data.password
+      );
 
       if (isValidPassword) {
         const token = jwt.sign(

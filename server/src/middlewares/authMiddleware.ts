@@ -7,7 +7,6 @@ export const authmiddleWare = async (
   next: NextFunction
 ) => {
   const authToken = req.headers.authorization;
-
   if (authToken) {
     const token = authToken.split(" ")[1];
 
